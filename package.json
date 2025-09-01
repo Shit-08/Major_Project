@@ -1,0 +1,26 @@
+{
+  "name": "major_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shit-08/Major_Project.git"
+  },
+  "keywords": [],
+  "author": "Shital Patil",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Shit-08/Major_Project/issues"
+  },
+  "homepage": "https://github.com/Shit-08/Major_Project#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongoose": "^8.18.0"
+  }
+}
