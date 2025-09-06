@@ -65,6 +65,14 @@ body{
     padding: 0 !important;
 }
 
+.card-img-overlay{
+    opacity: 0;
+}
+
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
 .row{
     margin: 0 3rem !important;
 }
