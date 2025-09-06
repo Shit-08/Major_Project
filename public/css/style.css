@@ -1,6 +1,9 @@
 body{
-    margin: 10rem;
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: normal;
 }
+
 .navbar{
     height: 5rem;
     background-color: white;
@@ -43,4 +46,29 @@ body{
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+}
+
+/* Cards Styling */
+
+.card{
+    border: none !important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    object-fit: cover !important;
+    width: 100% !important;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+
+.row{
+    margin: 0 3rem !important;
+}
+
+.head{
+    margin-left: 4rem !important;
 }
