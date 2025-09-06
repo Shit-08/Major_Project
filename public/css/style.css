@@ -83,10 +83,14 @@ body{
     background-color: white;
 }
 
+/* New page button styling */
+
 .add-btn{
     background-color: #fe424d !important;
     border: none !important;
 }
+
+/* Edit page button styling */
 
 .edit-btn{
     background-color: #fe424d !important;
