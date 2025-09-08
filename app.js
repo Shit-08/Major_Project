@@ -9,7 +9,7 @@ const ejsMate= require('ejs-mate');
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended: true})); //to parse all data that from request 
-app.use(methodOverride("_method"));
+app.use(methodOverride("_method"));//middleware for method override
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
 
