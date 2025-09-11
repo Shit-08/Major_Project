@@ -5,8 +5,8 @@ const Listing= require("./models/listing");
 const path= require("path");
 const methodOverride= require("method-override");
 const ejsMate= require('ejs-mate');
-const asyncWrap= require('./utils/wrapAsync');
 const wrapAsync = require("./utils/wrapAsync");
+const ExpressError = require('./utils/expressError');
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -38,15 +38,17 @@ app.get('/listings/new', (req,res)=>{
 });
 
 //Show Route
-app.get('/listings/:id', async(req,res)=>{
+app.get('/listings/:id', wrapAsync(async(req,res)=>{
     let {id}= req.params;
     const listing= await Listing.findById(id);
     res.render("listings/show.ejs", {listing});
-});
+}));
 
 //Create Route
-app.post('/listings', wrapAsync(async(req,res)=>{
-    console.log(req.body);
+app.post('/listings', wrapAsync(async(req,res,next)=>{
+    if(!req.body.listing){
+        next(new ExpressError(400, "Send valid data for listing"));
+    }
     // let {title, description ,image, price, country, location }= req.body;
     // let data= new Listing({title : title, description: description, image}); // long syntax for creating Listing model instance for inserting data in collection
     const newListing= new Listing(req.body.listing);
@@ -55,29 +57,38 @@ app.post('/listings', wrapAsync(async(req,res)=>{
 }));
 
 //Edit Route
-app.get('/listings/:id/edit', async(req,res)=>{
+app.get('/listings/:id/edit', wrapAsync(async(req,res)=>{
     let {id}= req.params;
     const listing= await Listing.findById(id);
     res.render("listings/edit.ejs",{listing});
-});
+}));
 
 //Update Route
-app.put('/listings/:id', async(req,res)=>{
+app.put('/listings/:id', wrapAsync(async(req,res)=>{
+    if(!req.body.listing){
+        throw new ExpressError(400, "Send valid data for listing");
+    }
     let {id}= req.params;
-    console.log(req.body.listing);
     await Listing.findByIdAndUpdate(id, {...req.body.listing}, {new: true , runValidators: true});// spread operator
     res.redirect(`/listings/${id}`);
-});
+}));
 
 //Delete Route
-app.delete('/listings/:id', async(req,res)=>{
+app.delete('/listings/:id', wrapAsync(async(req,res)=>{
     let {id}= req.params;
     let deletedListing= await Listing.findByIdAndDelete(id);
     res.redirect('/listings');
-})
+}));
 
+//it will run for every request that didn’t match earlier routes.
+app.use((req,res,next)=>{
+    next(new ExpressError(404,"Page not found"));
+});
+
+//error handling middleware
 app.use((err,req,res,next)=>{
-    res.send("something went wrong")
+    let {statusCode=500, message="Something went wrong"} = err;
+    res.status(statusCode).send(message);
 })
 
 app.listen(8080, ()=>{
