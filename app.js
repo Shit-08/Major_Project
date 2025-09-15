@@ -2,12 +2,13 @@ const express= require("express");
 const app= express();
 const mongoose= require('mongoose');
 const Listing= require("./models/listing");
+const Review= require('./models/review');
 const path= require("path");
 const methodOverride= require("method-override");
 const ejsMate= require('ejs-mate');
 const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require('./utils/expressError');
-const {listingSchema}= require("./schema");
+const {listingSchema, reviewSchema}= require("./schema");
 const { valid } = require("joi");
 
 app.set("view engine", "ejs");
@@ -38,6 +39,19 @@ const validateListing= (req,res,next)=>{
         next();
     }
 };
+
+// server side schema validation function for reviews schema model using joi
+const validateReview= (req,res,next)=>{
+    let {error}= reviewSchema.validate(req.body);
+    console.log(error.details);
+    if(error){
+        let errMsg= error.details.map((el) => el.message).join(',');
+        throw new ExpressError(400, errMsg);
+    }else{
+        next();
+    }
+};
+
 
 //Index Route
 app.get('/listings',async(req,res)=>{
@@ -87,6 +101,18 @@ app.delete('/listings/:id', wrapAsync(async(req,res)=>{
     let deletedListing= await Listing.findByIdAndDelete(id);
     res.redirect('/listings');
 }));
+
+//Reviews 
+//Post create route
+app.post("/listings/:id/reviews",validateReview, async(req, res)=>{
+    let {id}= req.params;
+    let listing= await Listing.findById(id);
+    let newReview= new Review(req.body.review);
+    await newReview.save();
+    listing.reviews.push(newReview);
+    await listing.save();
+    res.redirect(`/listings/${id}`);
+})
 
 //it will run for every request that didn’t match earlier routes.
 app.use((req,res,next)=>{
