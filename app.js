@@ -8,6 +8,7 @@ const ExpressError = require('./utils/expressError');
 const listings= require('./routes/listing');
 const reviews = require('./routes/review');
 const session = require('express-session');
+const flash = require("connect-flash");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -27,6 +28,7 @@ const sessionOptions= {
     }
 }
 app.use(session(sessionOptions));
+app.use(flash());
 
 async function main() {
     await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
@@ -37,6 +39,12 @@ main()
     console.log("connected to DB");
 })
 .catch(err=>console.log(err));
+
+app.use((req,res, next)=>{
+    res.locals.success = req.flash("success");
+    console.log(res.locals.success);
+    next();
+})
 
 app.use('/listings', listings);
 app.use('/listings/:id/reviews', reviews);
