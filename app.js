@@ -9,6 +9,9 @@ const listings= require('./routes/listing');
 const reviews = require('./routes/review');
 const session = require('express-session');
 const flash = require("connect-flash");
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const User = require("./models/user");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
