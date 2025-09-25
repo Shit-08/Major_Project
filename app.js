@@ -38,7 +38,7 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
-passport.serializeUser(User.deserializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 async function main() {
     await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');

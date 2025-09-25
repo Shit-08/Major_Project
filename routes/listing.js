@@ -4,6 +4,7 @@ const wrapAsync = require("../utils/wrapAsync");
 const Listing= require("../models/listing");
 const ExpressError = require('../utils/expressError');
 const {listingSchema}= require("../schema");
+const {isLoggedIn} = require("../middleware");
 
 //schema validation function using joi
 const validateListing= (req,res,next)=>{
@@ -17,14 +18,14 @@ const validateListing= (req,res,next)=>{
 };
 
 //Index Route
-router.get('/',async(req,res)=>{
+router.get('/',wrapAsync(async(req,res)=>{
     let listings= await Listing.find();
     res.render("listings/index.ejs",{listings});
 
-});
+}));
 
 //New Route
-router.get('/new', (req,res)=>{
+router.get('/new', isLoggedIn, (req,res)=>{
     res.render("listings/new.ejs");
 });
 
@@ -40,7 +41,7 @@ router.get('/:id', wrapAsync(async(req,res)=>{
 }));
 
 //Create Route
-router.post('/', validateListing, wrapAsync(async(req,res,next)=>{
+router.post('/', isLoggedIn, validateListing, wrapAsync(async(req,res,next)=>{
     // let {title, description ,image, price, country, location }= req.body;
     // let data= new Listing({title : title, description: description, image}); // long syntax for creating Listing model instance for inserting data in collection
     const newListing= new Listing(req.body.listing);
@@ -50,7 +51,7 @@ router.post('/', validateListing, wrapAsync(async(req,res,next)=>{
 }));
 
 //Edit Route
-router.get('/:id/edit', wrapAsync(async(req,res)=>{
+router.get('/:id/edit', isLoggedIn, wrapAsync(async(req,res)=>{
     let {id}= req.params;
     const listing= await Listing.findById(id);
     if(!listing){
@@ -69,7 +70,7 @@ router.put('/:id', validateListing, wrapAsync(async(req,res)=>{
 }));
 
 //Delete Route
-router.delete('/:id', wrapAsync(async(req,res)=>{
+router.delete('/:id',isLoggedIn, wrapAsync(async(req,res)=>{
     let {id}= req.params;
     let deletedListing= await Listing.findByIdAndDelete(id);
     req.flash("success", "Listing Deleted!");
