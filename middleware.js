@@ -1,6 +1,7 @@
 const Listing= require("./models/listing");
 const ExpressError = require('./utils/expressError');
 const {listingSchema, reviewSchema} = require("./schema");
+const Review = require("./models/review");
 
 module.exports.isLoggedIn = (req,res, next)=>{
     if(!req.isAuthenticated()){
@@ -18,11 +19,12 @@ module.exports.savedRedirectUrl = (req, res, next)=>{
     next();
 }
 
+//middleware for listing authorization
 module.exports.isOwner = async(req, res, next)=>{
     let {id}= req.params;
     let listing = await Listing.findById(id);
-    console.log("listing owner",listing.owner);
-    console.log("current user", res.locals.currUser._id );
+    // console.log("listing owner",listing.owner);
+    // console.log("current user", res.locals.currUser._id );
     if(!listing.owner.equals(res.locals.currUser._id)){
         req.flash("error", "you don't have permission to edit or delete!");
         return res.redirect(`/listings/${id}`);
@@ -52,3 +54,15 @@ module.exports.validateReview= (req,res,next)=>{
         next();
     }
 };
+
+//middleware for review authorization
+module.exports.isReviewAuthor = async(req, res, next)=>{
+    let {id, reviewId }= req.params;
+    let review = await Review.findById(reviewId);
+    if(!review.author.equals(res.locals.currUser._id)){
+        req.flash("error", "you don't have permission to delete this review");
+        return res.redirect(`/listings/${id}`);
+    }
+    next();
+
+}
