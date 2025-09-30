@@ -30,7 +30,6 @@ module.exports.isOwner = async(req, res, next)=>{
         return res.redirect(`/listings/${id}`);
     }
     next();
-
 }
 
 //schema validation function using joi
@@ -64,5 +63,4 @@ module.exports.isReviewAuthor = async(req, res, next)=>{
         return res.redirect(`/listings/${id}`);
     }
     next();
-
 }
