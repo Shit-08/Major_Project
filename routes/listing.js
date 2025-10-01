@@ -4,6 +4,8 @@ const wrapAsync = require("../utils/wrapAsync");
 const Listing= require("../models/listing");
 const {isLoggedIn, isOwner, validateListing} = require("../middleware");
 const listingController = require("../controllers/listings");
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 //Index and create route
 router.route('/')
