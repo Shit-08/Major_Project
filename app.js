@@ -1,3 +1,7 @@
+//to use dotenv when not in production phase/env
+if(process.env.NODE_ENV != "production"){
+    require('dotenv').config();
+}
 const express= require("express");
 const app= express();
 const mongoose= require('mongoose');
