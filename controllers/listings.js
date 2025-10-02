@@ -22,9 +22,11 @@ module.exports.show = async(req,res)=>{
 module.exports.create = async(req,res,next)=>{
     // let {title, description ,image, price, country, location }= req.body;
     // let data= new Listing({title : title, description: description, image}); // long syntax for creating Listing model instance for inserting data in collection
+    let url = req.file.path;
+    let filename = req.file.filename;
     const newListing = new Listing(req.body.listing);
-    console.log(req.user);
     newListing.owner = req.user._id;
+    newListing.image = {url, filename};
     await newListing.save();
     req.flash("success", "New Listing created!");
     res.redirect('/listings');
