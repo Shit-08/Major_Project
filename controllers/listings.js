@@ -1,4 +1,7 @@
 const Listing = require("../models/listing");
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapToken = process.env.MAP_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.index=async(req,res)=>{
     let listings= await Listing.find();
@@ -20,16 +23,24 @@ module.exports.show = async(req,res)=>{
 };
 
 module.exports.create = async(req,res,next)=>{
+    let response = await geocodingClient.forwardGeocode({
+        query: req.body.listing.location,
+        limit: 1
+    })
+    .send();
+    console.log(response.body.features[0].geometry);
+    res.send("done");
     // let {title, description ,image, price, country, location }= req.body;
     // let data= new Listing({title : title, description: description, image}); // long syntax for creating Listing model instance for inserting data in collection
-    let url = req.file.path;
-    let filename = req.file.filename;
-    const newListing = new Listing(req.body.listing);
-    newListing.owner = req.user._id;
-    newListing.image = {url, filename};
-    await newListing.save();
-    req.flash("success", "New Listing created!");
-    res.redirect('/listings');
+    
+    // let url = req.file.path;
+    // let filename = req.file.filename;
+    // const newListing = new Listing(req.body.listing);
+    // newListing.owner = req.user._id;
+    // newListing.image = {url, filename};
+    // await newListing.save();
+    // req.flash("success", "New Listing created!");
+    // res.redirect('/listings');
 };
 
 module.exports.edit = async(req,res)=>{
