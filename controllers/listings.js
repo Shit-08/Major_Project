@@ -28,19 +28,20 @@ module.exports.create = async(req,res,next)=>{
         limit: 1
     })
     .send();
-    console.log(response.body.features[0].geometry);
-    res.send("done");
+
     // let {title, description ,image, price, country, location }= req.body;
     // let data= new Listing({title : title, description: description, image}); // long syntax for creating Listing model instance for inserting data in collection
     
-    // let url = req.file.path;
-    // let filename = req.file.filename;
-    // const newListing = new Listing(req.body.listing);
-    // newListing.owner = req.user._id;
-    // newListing.image = {url, filename};
-    // await newListing.save();
-    // req.flash("success", "New Listing created!");
-    // res.redirect('/listings');
+    let url = req.file.path;
+    let filename = req.file.filename;
+    const newListing = new Listing(req.body.listing);
+    newListing.owner = req.user._id;
+    newListing.image = {url, filename};
+    newListing.geometry = response.body.features[0].geometry;
+    await newListing.save();
+    console.log(newListing);
+    req.flash("success", "New Listing created!");
+    res.redirect('/listings');
 };
 
 module.exports.edit = async(req,res)=>{
