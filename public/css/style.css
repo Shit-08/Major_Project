@@ -96,3 +96,9 @@ body{
     background-color: #fe424d !important;
     border: none !important;
 }
+
+/* Map Styling */
+#map{
+    height: 400px;
+    width: 80vh;
+}
