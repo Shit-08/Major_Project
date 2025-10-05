@@ -1,104 +1,172 @@
-body{
+body {
   font-family: "Plus Jakarta Sans", sans-serif !important;
   font-weight: 400 !important;
   font-style: normal;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
 }
 
-.container{
-    margin: 0 4.2rem !important;
-    flex: 1;
+.container {
+  margin: 0 4.2rem !important;
+  flex: 1;
 }
 
-.navbar{
-    height: 5rem;
-    background-color: white;
+.navbar {
+  height: 5rem;
+  background-color: white;
 }
 
-.fa-compass{
-    color: #fe424d;
-    font-size: 2rem;
+.fa-compass {
+  color: #fe424d;
+  font-size: 2rem;
 }
 
-.nav-link{
-    color: #222222 !important;
+.nav-link {
+  color: #222222 !important;
 }
 
 /* Footer styling */
-.f-info-links a{
-    text-decoration: none;
-    color: #222222;
+.f-info-links a {
+  text-decoration: none;
+  color: #222222;
 }
 
-.f-info-links a:hover{
-    text-decoration: underline;
+.f-info-links a:hover {
+  text-decoration: underline;
 }
-.f-info-links, .f-info-socials{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.f-info-socials i{
-    margin-right: 1rem;
-    font-size: 1.2rem;
+.f-info-links,
+.f-info-socials {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.f-info{
-    display: flex;
-    height: 8rem;
-    background-color: #ebebeb;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+.f-info-socials i {
+  margin-right: 1rem;
+  font-size: 1.2rem;
+}
+
+.f-info {
+  display: flex;
+  height: 8rem;
+  background-color: #ebebeb;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Cards Styling */
 
-.listing-card{
-    border: none !important;
-    margin-bottom: 2rem;
+.listing-card {
+  border: none !important;
+  margin-bottom: 2rem;
 }
 
-.card-img-top{
-    border-radius: 1rem !important;
-    object-fit: cover !important;
-    width: 100% !important;
+.card-img-top {
+  border-radius: 1rem !important;
+  object-fit: cover !important;
+  width: 100% !important;
 }
 
-.card-body{
-    padding: 0 !important;
+.card-body {
+  padding: 0 !important;
 }
 
-.card-img-overlay{
-    opacity: 0;
+.card-img-overlay {
+  opacity: 0;
 }
 
-.card-img-overlay:hover{
-    opacity: 0.2;
-    background-color: white;
+.card-img-overlay:hover {
+  opacity: 0.2;
+  background-color: white;
 }
 
 /* New page button styling */
 
-.add-btn{
-    background-color: #fe424d !important;
-    border: none !important;
+.add-btn {
+  background-color: #fe424d !important;
+  border: none !important;
 }
 
 /* Edit page button styling */
 
-.edit-btn{
-    background-color: #fe424d !important;
-    border: none !important;
+.edit-btn {
+  background-color: #fe424d !important;
+  border: none !important;
 }
 
 /* Map Styling */
-#map{
-    height: 400px;
-    width: 80vh;
+#map {
+  height: 400px;
+  width: 80vh;
+}
+
+/* Navbar styling  */
+
+.btn-search {
+  background-color: #fe424d;
+  color: white;
+  width: 10rem;
+  border-radius: 25px;
+  padding: 0 1rem 0 1rem;
+}
+.btn-search:hover {
+  background-color: #fe424d;
+  color: white;
+}
+.btn-search i {
+  display: inline;
+  margin-right: 0.5rem;
+  width: 1rem;
+}
+.search-inp {
+  border-radius: 25px;
+  padding: 0.5rem 3rem 0.5rem 3rem;
+}
+
+/* listings index page styling of filters */
+
+#filters {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto; /* horizontal scroll */
+  scrollbar-width: none; /* hide scrollbar in Firefox */
+  align-items: center;
+}
+#filters::-webkit-scrollbar {
+  display: none; /* hide scrollbar in Chrome */
+}
+
+.filter {
+  text-align: center;
+  margin-right: 2rem;
+  opacity: 0.7;
+}
+.filter:hover {
+  opacity: 1;
+  cursor: pointer;
+  transform: scale(1.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.filter p {
+  font-size: 0.8rem;
+}
+.tax-toggle {
+  font-size: 0.8rem;
+  border: 1px solid lightgrey;
+  border-radius: 2rem;
+  height: 3.2rem;
+  padding: 0.7rem;
+  width: 35rem;
+  margin-left: -1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tax-info {
+  display: none;
 }
